@@ -10,14 +10,41 @@ const Form = () => {
         sintomas: ''
     });
 
-    const handleChange = (event) => {
+    const [error, updateError] = useState(false);
+
+    const handleChange = event => {
         console.log("Escribiendo...")
+        updateAppointment({
+            ...appointment,
+            [event.target.name]: event.target.value 
+        })
     }
+
+    const submitAppointment = event => {
+        event.preventDefault();
+        if(areNotValid(mascota, propietario, fecha, hora, sintomas)) {
+            updateError(true);
+            return;
+        }
+    }
+
+    function areNotValid(mascota, propietario, fecha, hora, sintomas) {
+        return mascota.trim() === '' || propietario.trim() === '' ||
+            fecha.trim() === '' || hora.trim() === '' ||
+            sintomas.trim() === '';
+    }
+
+    const { mascota, propietario, fecha, hora, sintomas }  = appointment
 
     return (
         <Fragment>
             <h2>Crear Cita</h2>
-            <form>
+
+            { error ? <p className="alerta-error">Todos los campos son obligatorios</p> 
+            : null}
+            <form
+                onSubmit={submitAppointment}
+            >
                 <label>Nombre Mascota</label>
                 <input 
                     type="text"
@@ -25,6 +52,7 @@ const Form = () => {
                     className="u-full-width"
                     placeholder="Nombre Mascota"
                     onChange={handleChange}
+                    value={mascota}
                 />
 
                 <label>Nombre Dueño</label>
@@ -34,6 +62,7 @@ const Form = () => {
                     className="u-full-width"
                     placeholder="Nombre Dueño de la mascota"
                     onChange={handleChange}
+                    value={propietario}
                 />
 
                 <label>Fecha</label>
@@ -42,6 +71,7 @@ const Form = () => {
                     name="fecha"
                     className="u-full-width"
                     onChange={handleChange}
+                    value={fecha}
                 />
 
                 <label>Hora</label>
@@ -50,6 +80,7 @@ const Form = () => {
                     name="hora"
                     className="u-full-width"
                     onChange={handleChange}
+                    value={hora}
                 />
 
                 <label>Sintomas</label>
@@ -57,6 +88,7 @@ const Form = () => {
                     className="u-full-width"
                     name="sintomas"
                     onChange={handleChange}
+                    value={sintomas}
                 ></textarea>
 
                 <button
@@ -70,3 +102,5 @@ const Form = () => {
 
 
 export default Form;
+
+
