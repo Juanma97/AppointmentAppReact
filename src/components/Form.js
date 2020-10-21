@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 const Form = () => {
 
@@ -26,6 +27,11 @@ const Form = () => {
             updateError(true);
             return;
         }
+
+        appointment.id = uuidv4();
+
+        updateError(false);
+
     }
 
     function areNotValid(mascota, propietario, fecha, hora, sintomas) {
