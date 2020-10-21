@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import Form from './components/Form'
+import Appointment from './components/Appointment'
 
 function App() {
 
@@ -9,6 +10,13 @@ function App() {
     saveAppointments([
       ...appointments, appointment
     ])
+  }
+
+  const deleteAppointment = id => {
+    const newAppointments = appointments.filter(appointment => (
+      appointment.id != id
+    ))
+      saveAppointments(newAppointments);
   }
 
   return (
@@ -22,7 +30,14 @@ function App() {
             />
           </div>
           <div className="one-half-column">
-            2
+            <h2>Administra tus citas</h2>
+            {appointments.map(appointment => (
+              <Appointment 
+                key={appointment.id}
+                appointment={appointment}
+                deleteAppointment={deleteAppointment}
+              />
+            ))}
           </div>
         </div>
 

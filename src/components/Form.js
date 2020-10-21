@@ -32,6 +32,14 @@ const Form = ({createAppointment}) => {
 
         createAppointment(appointment);
 
+        updateAppointment({
+            mascota: '',
+            propietario: '',
+            fecha: '',
+            hora: '',
+            sintomas: ''
+        });
+
     }
 
     function areNotValid(mascota, propietario, fecha, hora, sintomas) {
