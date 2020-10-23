@@ -1,10 +1,24 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import Form from './components/Form'
 import Appointment from './components/Appointment'
 
 function App() {
 
-  const [appointments, saveAppointments] = useState([]);
+  let appointmentsStart = JSON.parse(localStorage.getItem('appointments'))
+  
+  if(!appointmentsStart) {
+    appointmentsStart = []
+  }
+
+  const [appointments, saveAppointments] = useState(appointmentsStart);
+
+  useEffect( () => {
+    if(appointmentsStart) {
+      localStorage.setItem('appointments', JSON.stringify(appointments))
+    }else{
+      localStorage.setItem('appointments', JSON.stringify([]))
+    }
+  }, [appointments])
 
   const createAppointment = appointment => {
     saveAppointments([
@@ -19,6 +33,8 @@ function App() {
       saveAppointments(newAppointments);
   }
 
+  const title = appointments.length === 0 ? "No hay citas" : "Administra tus citas";
+
   return (
     <Fragment>
       <h1>Administrador de pacientes</h1>
@@ -29,8 +45,8 @@ function App() {
               createAppointment={createAppointment}
             />
           </div>
-          <div className="one-half-column">
-            <h2>Administra tus citas</h2>
+          <div className="one-half column">
+            <h2>{title}</h2>
             {appointments.map(appointment => (
               <Appointment 
                 key={appointment.id}
@@ -40,7 +56,6 @@ function App() {
             ))}
           </div>
         </div>
-
       </div>
     </Fragment>
   );
