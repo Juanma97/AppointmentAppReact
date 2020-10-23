@@ -1,20 +1,20 @@
 import React, { Fragment, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import PropTypes from 'prop-types'
 
 const Form = ({createAppointment}) => {
 
     const [appointment, updateAppointment] = useState({
-        mascota: '',
-        propietario: '',
-        fecha: '',
-        hora: '',
-        sintomas: ''
+        pet: '',
+        owner: '',
+        date: '',
+        time: '',
+        syntoms: ''
     });
 
     const [error, updateError] = useState(false);
 
     const handleChange = event => {
-        console.log("Escribiendo...")
         updateAppointment({
             ...appointment,
             [event.target.name]: event.target.value 
@@ -23,7 +23,7 @@ const Form = ({createAppointment}) => {
 
     const submitAppointment = event => {
         event.preventDefault();
-        if(areNotValid(mascota, propietario, fecha, hora, sintomas)) {
+        if(areNotValid(pet, owner, date, time, syntoms)) {
             updateError(true);
             return;
         }
@@ -33,22 +33,22 @@ const Form = ({createAppointment}) => {
         createAppointment(appointment);
 
         updateAppointment({
-            mascota: '',
-            propietario: '',
-            fecha: '',
-            hora: '',
-            sintomas: ''
+            pet: '',
+            owner: '',
+            date: '',
+            time: '',
+            syntoms: ''
         });
 
     }
 
-    function areNotValid(mascota, propietario, fecha, hora, sintomas) {
-        return mascota.trim() === '' || propietario.trim() === '' ||
-            fecha.trim() === '' || hora.trim() === '' ||
-            sintomas.trim() === '';
+    function areNotValid(pet, owner, date, time, syntoms) {
+        return pet.trim() === '' || owner.trim() === '' ||
+                date.trim() === '' || time.trim() === '' ||
+                syntoms.trim() === '';
     }
 
-    const { mascota, propietario, fecha, hora, sintomas }  = appointment
+    const { pet, owner, date, time, syntoms }  = appointment
 
     return (
         <Fragment>
@@ -62,47 +62,47 @@ const Form = ({createAppointment}) => {
                 <label>Nombre Mascota</label>
                 <input 
                     type="text"
-                    name="mascota"
+                    name="pet"
                     className="u-full-width"
                     placeholder="Nombre Mascota"
                     onChange={handleChange}
-                    value={mascota}
+                    value={pet}
                 />
 
                 <label>Nombre Dueño</label>
                 <input 
                     type="text"
-                    name="propietario"
+                    name="owner"
                     className="u-full-width"
                     placeholder="Nombre Dueño de la mascota"
                     onChange={handleChange}
-                    value={propietario}
+                    value={owner}
                 />
 
                 <label>Fecha</label>
                 <input 
                     type="date"
-                    name="fecha"
+                    name="date"
                     className="u-full-width"
                     onChange={handleChange}
-                    value={fecha}
+                    value={date}
                 />
 
                 <label>Hora</label>
                 <input 
                     type="time"
-                    name="hora"
+                    name="time"
                     className="u-full-width"
                     onChange={handleChange}
-                    value={hora}
+                    value={time}
                 />
 
                 <label>Sintomas</label>
                 <textarea
                     className="u-full-width"
-                    name="sintomas"
+                    name="syntoms"
                     onChange={handleChange}
-                    value={sintomas}
+                    value={syntoms}
                 ></textarea>
 
                 <button
@@ -114,6 +114,9 @@ const Form = ({createAppointment}) => {
     )
 }
 
+Form.propTypes = {
+    createAppointment: PropTypes.func.isRequired
+}
 
 export default Form;
 

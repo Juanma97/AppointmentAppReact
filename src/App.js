@@ -18,7 +18,7 @@ function App() {
     }else{
       localStorage.setItem('appointments', JSON.stringify([]))
     }
-  }, [appointments])
+  }, [appointments, appointmentsStart])
 
   const createAppointment = appointment => {
     saveAppointments([
@@ -28,7 +28,7 @@ function App() {
 
   const deleteAppointment = id => {
     const newAppointments = appointments.filter(appointment => (
-      appointment.id != id
+      appointment.id !== id
     ))
       saveAppointments(newAppointments);
   }
